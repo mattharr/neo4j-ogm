@@ -186,8 +186,8 @@ public class MapCompositeConverter implements CompositeAttributeConverter<Map<?,
 
         if (propertyKey instanceof String) {
             return (String) propertyKey;
-        } else if (propertyKey.getClass().isEnum()) {
-            return enumKeysTransformation.apply(Phase.TO_GRAPH, ((Enum) propertyKey).name());
+        } else if (propertyKey instanceof Enum<?>) {
+            return enumKeysTransformation.apply(Phase.TO_GRAPH, ((Enum<?>) propertyKey).name());
         }
 
         throw new UnsupportedOperationException(
@@ -200,7 +200,7 @@ public class MapCompositeConverter implements CompositeAttributeConverter<Map<?,
             return propertyKey;
         } else if (keyType.equals(String.class)) {
             return propertyKey;
-        } else if (keyType.isEnum()) {
+        } else if (Enum.class.isAssignableFrom(keyType)) {
             @SuppressWarnings({"unchecked", "rawtypes"})
             Enum key = Enum.valueOf(((Class<Enum>) keyType), enumKeysTransformation.apply(
                 Phase.TO_ENTITY, propertyKey));
